@@ -16,8 +16,7 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
-    if (newTaskTitle.trim() === '') {
-      window.alert('Digite o título da task');
+    if (!newTaskTitle) {
       return;
     }
 
@@ -27,7 +26,7 @@ export function TaskList() {
       isComplete: false
     }
 
-    setTasks([newTask, ...tasks])
+    setTasks([...tasks, newTask])
     setNewTaskTitle('')
 
 
@@ -50,8 +49,10 @@ export function TaskList() {
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
-    const newTasksList = tasks.filter(task => task.id !== id);
-    setTasks(newTasksList)
+
+    const updatedTasks = tasks.filter(task => task.id !== id);
+
+    setTasks(updatedTasks);
   }
 
   return (
@@ -86,7 +87,7 @@ export function TaskList() {
                   />
                   <span className="checkmark"></span>
                 </label>
-                <p>{task.title}</p>
+                {tasks.length > 0 && <p>{task.title}</p>}
               </div>
 
               <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
